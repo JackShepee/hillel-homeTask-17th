@@ -1,0 +1,52 @@
+.categories {
+  float: left;
+  width: 200px;
+}
+
+.categories ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.categories li {
+  cursor: pointer;
+  padding: 5px 10px;
+  background-color: #f2f2f2;
+  margin-bottom: 5px;
+}
+
+.products {
+  float: left;
+  width: 400px;
+}
+
+.product-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.product-list li {
+  cursor: pointer;
+  padding: 5px 10px;
+  background-color: #f2f2f2;
+  margin-bottom: 5px;
+}
+
+.product-info {
+  float: left;
+  width: 300px;
+  padding: 20px;
+  background-color: #f2f2f2;
+}
+
+.product-info h2 {
+  margin-top: 0;
+}
+
+.product-info button {
+  margin-top: 10px;
+}
+
+.hidden {
+  display: none;
+}
