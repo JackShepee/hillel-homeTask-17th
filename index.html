@@ -27,6 +27,46 @@
       <button id="buy-button">Купити</button>
     </div>
 
+    <div class="order-form hidden">
+      <h2>Форма оформлення замовлення</h2>
+      <form id="order-form">
+        <label for="name">ПІБ покупця:</label>
+        <input type="text" id="name" required>
+        <label for="city">Місто:</label>
+        <select id="city" required>
+          <option value="Київ">Київ</option>
+          <option value="Львів">Львів</option>
+          <option value="Одеса">Одеса</option>
+        </select>
+        <label for="warehouse">Склад Нової пошти для надсилання:</label>
+        <input type="text" id="warehouse" required>
+        <label for="payment">Післяплати або оплати банківською карткою:</label>
+        <select id="payment" required>
+          <option value="Післяплата">Післяплата</option>
+          <option value="Оплата карткою">Оплата карткою</option>
+        </select>
+        <label for="quantity">Кількість:</label>
+        <input type="number" id="quantity" required>
+        <label for="comment">Коментар до замовлення:</label>
+        <textarea id="comment"></textarea>
+        <button type="submit">Підтвердити замовлення</button>
+      </form>
+    </div>
+    
+    <div id="order-info" class="hidden">
+      <h2>Інформація про замовлення</h2>
+      <p id="order-product-name"></p>
+      <p id="order-product-price"></p>
+      <p id="order-product-description"></p>
+      <p id="order-customer-name"></p>
+      <p id="order-city"></p>
+      <p id="order-warehouse"></p>
+      <p id="order-payment"></p>
+      <p id="order-quantity"></p>
+      <p id="order-comment"></p>
+      <button id="reset-app">Close Order</button>
+    </div>
+
     <script src="script.js"></script>
   </body>
 </html>

@@ -6,6 +6,21 @@ const productName = document.getElementById("product-name");
 const productPrice = document.getElementById("product-price");
 const productDescription = document.getElementById("product-description");
 const buyButton = document.getElementById("buy-button");
+const orderForm = document.querySelector(".order-form");
+const orderInfo = document.querySelector("#order-info");
+const orderFormElement = document.querySelector("#order-form");
+const orderProduct = document.querySelector("#order-product-name");
+const orderPrice = document.querySelector("#order-product-price");
+const orderDescription = document.querySelector("#order-product-description");
+const orderCustomerName = document.querySelector("#order-customer-name");
+const orderCity = document.querySelector("#order-city");
+const orderWarehouse = document.querySelector("#order-warehouse");
+const orderPayment = document.querySelector("#order-payment");
+const orderQuantity = document.querySelector("#order-quantity");
+const orderComment = document.querySelector("#order-comment");
+const orderSubmitButton = document.querySelector("#order-form button");
+const orderSuccessMessage = document.querySelector("#order-success-message");
+const resetAppButton = document.getElementById("reset-app");
 
 let selectedCategory = null;
 let selectedProduct = null;
@@ -13,16 +28,40 @@ let initialCategoryState = null;
 
 const categoryData = {
   Фрукти: [
-    { name: "Яблука", price: 10, description: "Соковите яблуко" },
-    { name: "Банани", price: 8, description: "Солодкі банани" },
+    {
+      name: "Яблука",
+      price: 30,
+      description: "Соковиті та солодкі яблука",
+    },
+    {
+      name: "Банани",
+      price: 20,
+      description: "Смачні та поживні банани",
+    },
   ],
   Овочі: [
-    { name: "Морква", price: 5, description: "Свіжа морква" },
-    { name: "Картопля", price: 7, description: "Смачна картопля" },
+    {
+      name: "Морква",
+      price: 15,
+      description: "Свіжа та хрустка морква",
+    },
+    {
+      name: "Помідори",
+      price: 25,
+      description: "Соковиті та ароматні помідори",
+    },
   ],
   "М'ясо": [
-    { name: "Свинина", price: 15, description: "Ніжне свиняче м'ясо" },
-    { name: "Курка", price: 12, description: "Соковита курка" },
+    {
+      name: "Курка",
+      price: 40,
+      description: "Ніжне та смачне куряче м'ясо",
+    },
+    {
+      name: "Свинина",
+      price: 50,
+      description: "Сочна та смачна свинина",
+    },
   ],
 };
 
@@ -49,12 +88,13 @@ function showCategoryProducts(category) {
   productsContainer.classList.remove("hidden");
   productInfo.classList.add("hidden");
   hideProductInfo();
+  resetOrderInfo();
 }
 
 function showProductInfo(product) {
   selectedProduct = product.textContent;
 
-  productName.textContent = product.textContent;
+  productName.textContent = `Товар: ${product.textContent}`;
   productPrice.textContent = `Ціна: ${product.dataset.price} грн`;
   productDescription.textContent = `Опис: ${product.dataset.description}`;
 
@@ -70,11 +110,92 @@ function hideProductInfo() {
 
 function buyProduct() {
   if (selectedProduct) {
-    alert(`Товар "${selectedProduct}" куплено!`);
     selectedProduct = null;
     hideProductInfo();
     showCategoryProducts(initialCategoryState);
+    showOrderForm();
   }
+}
+
+function showOrderForm() {
+  orderFormElement.reset();
+  orderProduct.textContent = selectedProduct;
+  orderPrice.textContent = `Ціна: ${
+    document.querySelector(".product[data-price]").dataset.price
+  } грн`;
+  orderDescription.textContent = `Опис: ${
+    document.querySelector(".product[data-description]").dataset.description
+  }`;
+
+  productInfo.classList.add("hidden");
+  orderForm.classList.remove("hidden");
+  orderInfo.classList.add("hidden");
+}
+
+function submitOrder(event) {
+  event.preventDefault();
+  const customerName = document.querySelector("#name").value;
+  const city = document.querySelector("#city").value;
+  const warehouse = document.querySelector("#warehouse").value;
+  const payment = document.querySelector("#payment").value;
+  const quantity = document.querySelector("#quantity").value;
+  const comment = document.querySelector("#comment").value;
+
+  orderCustomerName.textContent = `ПІБ покупця: ${customerName}`;
+  orderCity.textContent = `Місто: ${city}`;
+  orderWarehouse.textContent = `Склад Нової пошти: ${warehouse}`;
+  orderPayment.textContent = `Спосіб оплати: ${payment}`;
+  orderQuantity.textContent = `Кількість: ${quantity}`;
+  orderComment.textContent = `Коментар: ${comment}`;
+
+  orderInfo.classList.remove("hidden");
+  orderForm.classList.add("hidden");
+  productList.classList.add("hidden");
+}
+
+function resetOrderInfo() {
+  selectedCategory = null;
+  selectedProduct = null;
+  initialCategoryState = null;
+
+  orderProduct.textContent = "";
+  orderPrice.textContent = "";
+  orderDescription.textContent = "";
+  orderCustomerName.textContent = "";
+  orderCity.textContent = "";
+  orderWarehouse.textContent = "";
+  orderPayment.textContent = "";
+  orderQuantity.textContent = "";
+  orderComment.textContent = "";
+  orderInfo.classList.add("hidden");
+}
+
+function validateOrderForm() {
+  const customerName = document.querySelector("#customer-name").value;
+  const city = document.querySelector("#city").value;
+  const warehouse = document.querySelector("#warehouse").value;
+  const quantity = document.querySelector("#quantity").value;
+
+  if (!customerName || !city || !warehouse || !quantity) {
+    alert("Будь ласка, заповніть всі обов'язкові поля форми.");
+    return false;
+  }
+
+  return true;
+}
+
+function resetApp() {
+  selectedCategory = null;
+  selectedProduct = null;
+  productsContainer.classList.add("hidden");
+  productInfo.classList.add("hidden");
+  orderForm.classList.add("hidden");
+  orderInfo.classList.add("hidden");
+  productList.innerHTML = "";
+  hideProductInfo();
+  orderFormElement.reset();
+  resetOrderInfo();
+  showCategories();
 }
 
 categories.forEach((category) => {
@@ -92,8 +213,11 @@ productList.addEventListener("click", (event) => {
 });
 
 buyButton.addEventListener("click", () => {
-  buyProduct();
-  productInfo.classList.add("hidden");
+  showOrderForm();
 });
+
+orderFormElement.addEventListener("submit", submitOrder);
+
+resetAppButton.addEventListener("click", resetApp);
 
 showCategories();

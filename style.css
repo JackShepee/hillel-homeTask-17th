@@ -47,6 +47,49 @@
   margin-top: 10px;
 }
 
+.order-form {
+  float: left;
+  width: 300px;
+  padding: 20px;
+  background-color: #f2f2f2;
+}
+
+.order-form h2 {
+  margin-top: 0;
+}
+
+.order-form label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.order-form input,
+.order-form select,
+.order-form textarea {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+.order-form button[type="submit"] {
+  margin-top: 10px;
+}
+
+#order-info {
+  float: left;
+  width: 400px;
+  padding: 20px;
+  background-color: #f2f2f2;
+}
+
+#order-info h2 {
+  margin-top: 0;
+}
+
+#order-info p {
+  margin-bottom: 10px;
+}
+
 .hidden {
   display: none;
 }
