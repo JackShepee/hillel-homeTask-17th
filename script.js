@@ -21,6 +21,7 @@ const orderComment = document.querySelector("#order-comment");
 const orderSubmitButton = document.querySelector("#order-form button");
 const orderSuccessMessage = document.querySelector("#order-success-message");
 const resetAppButton = document.getElementById("reset-app");
+const viewOrdersButton = document.getElementById("view-orders");
 
 let selectedCategory = null;
 let selectedProduct = null;
@@ -148,9 +149,31 @@ function submitOrder(event) {
   orderQuantity.textContent = `Кількість: ${quantity}`;
   orderComment.textContent = `Коментар: ${comment}`;
 
+  const productCost = parseFloat(productPrice.textContent.split(": ")[1]);
+  const quantityOrdered = parseInt(
+    orderQuantity.textContent.split(": ")[1],
+    10
+  );
+
+  const totalPrice = productCost * quantityOrdered;
+
+  const order = {
+    date: new Date().toLocaleDateString(),
+    product: orderProduct.textContent,
+    price: totalPrice,
+    description: orderDescription.textContent.split(": ")[1],
+    customerName: orderCustomerName.textContent.split(": ")[1],
+    city: orderCity.textContent.split(": ")[1],
+    warehouse: orderWarehouse.textContent.split(": ")[1],
+    payment: orderPayment.textContent.split(": ")[1],
+    quantity: orderQuantity.textContent.split(": ")[1],
+    comment: orderComment.textContent.split(": ")[1],
+  };
+
+  saveOrder(order);
+
   orderInfo.classList.remove("hidden");
   orderForm.classList.add("hidden");
-  productList.classList.add("hidden");
 }
 
 function resetOrderInfo() {
@@ -196,6 +219,7 @@ function resetApp() {
   orderFormElement.reset();
   resetOrderInfo();
   showCategories();
+  ordersContainer.classList.add("hidden");
 }
 
 categories.forEach((category) => {
@@ -215,6 +239,53 @@ productList.addEventListener("click", (event) => {
 buyButton.addEventListener("click", () => {
   showOrderForm();
 });
+
+const ordersContainer = document.createElement("div");
+document.body.appendChild(ordersContainer);
+
+function saveOrder(order) {
+  const orders = JSON.parse(localStorage.getItem("orders")) || [];
+  orders.push(order);
+  localStorage.setItem("orders", JSON.stringify(orders));
+}
+
+function getOrders() {
+  return JSON.parse(localStorage.getItem("orders")) || [];
+}
+
+function displayOrders() {
+  const orders = getOrders();
+  ordersContainer.innerHTML = "";
+
+  orders.forEach((order) => {
+    const orderElement = document.createElement("div");
+    orderElement.classList.add("order-entry");
+
+    orderElement.innerHTML = `
+          <div class="order-summary">
+              <span>Дата: ${order.date}</span>
+              <span>Продукт: ${order.product}</span>
+              <span>Ціна: ${order.price}</span>
+              <span>Опис: ${order.description}</span>
+              <span>ПІБ покупця: ${order.customerName}</span>
+              <span>Місто: ${order.city}</span>
+              <span>Склад Нової пошти: ${order.warehouse}</span>
+              <span>Спосіб оплати: ${order.payment}</span>
+              <span>Кількість: ${order.quantity}</span>
+              <span>Коментар: ${order.comment}</span>
+          </div>
+      `;
+    ordersContainer.appendChild(orderElement);
+  });
+}
+
+function showOrdersView() {
+  resetApp();
+  displayOrders();
+  ordersContainer.classList.remove("hidden");
+}
+
+viewOrdersButton.addEventListener("click", showOrdersView);
 
 orderFormElement.addEventListener("submit", submitOrder);
 

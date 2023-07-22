@@ -1,61 +1,49 @@
-.categories {
-  float: left;
-  width: 200px;
-}
-
-.categories ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.categories li {
-  cursor: pointer;
-  padding: 5px 10px;
-  background-color: #f2f2f2;
-  margin-bottom: 5px;
-}
-
-.products {
-  float: left;
-  width: 400px;
-}
-
-.product-list {
-  list-style-type: none;
-  padding: 0;
-}
-
-.product-list li {
-  cursor: pointer;
-  padding: 5px 10px;
-  background-color: #f2f2f2;
-  margin-bottom: 5px;
-}
-
-.product-info {
-  float: left;
-  width: 300px;
+.container {
   padding: 20px;
   background-color: #f2f2f2;
+  margin-bottom: 15px;
 }
 
-.product-info h2 {
+.container h2 {
   margin-top: 0;
+  margin-bottom: 15px;
 }
 
-.product-info button {
+body {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  font-family: 'Arial', sans-serif; 
+}
+
+.categories, .products, .product-info, .order-form, #order-info {
+  width: calc(33.33% - 10px); 
+  box-sizing: border-box;
+}
+
+.categories ul, .product-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.categories li, .product-list li {
+  cursor: pointer;
+  padding: 5px 10px;
+  background-color: #e7e7e7;
+  margin-bottom: 5px;
+  transition: background-color 0.3s; 
+}
+
+.categories li:hover, .product-list li:hover {
+  background-color: #d4d4d4;
+}
+
+.product-info, .order-form, #order-info {
+  padding: 20px;
+}
+
+.product-info button, .order-form button[type="submit"] {
   margin-top: 10px;
-}
-
-.order-form {
-  float: left;
-  width: 300px;
-  padding: 20px;
-  background-color: #f2f2f2;
-}
-
-.order-form h2 {
-  margin-top: 0;
 }
 
 .order-form label {
@@ -63,27 +51,10 @@
   margin-bottom: 5px;
 }
 
-.order-form input,
-.order-form select,
-.order-form textarea {
+.order-form input, .order-form select, .order-form textarea {
   width: 100%;
   padding: 5px;
   margin-bottom: 10px;
-}
-
-.order-form button[type="submit"] {
-  margin-top: 10px;
-}
-
-#order-info {
-  float: left;
-  width: 400px;
-  padding: 20px;
-  background-color: #f2f2f2;
-}
-
-#order-info h2 {
-  margin-top: 0;
 }
 
 #order-info p {
@@ -92,4 +63,60 @@
 
 .hidden {
   display: none;
+}
+
+.orders-container {
+  clear: both; 
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 20px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+.order-entry {
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+  padding: 10px;
+  transition: background-color 0.3s;
+}
+
+.order-entry:hover {
+  background-color: #e7e7e7;
+}
+
+.order-summary {
+  display: flex;
+  justify-content: space-between;
+}
+
+.buttons-container {
+  width: 100%;
+  display: flex;
+  justify-content: center; 
+  margin-top: 20px;
+}
+
+.order-summary {
+  padding: 12px 16px;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  display: flex;
+  justify-content: space-between; 
+  align-items: center; 
+  border: 1px solid #e2e8f0; 
+  margin-bottom: 16px;
+  transition: background-color 0.3s, transform 0.3s; 
+}
+
+.order-summary:hover {
+  background-color: #f5f5f5; 
+  transform: translateY(-2px); 
+}
+
+.order-summary span {
+  color: #333; 
+  font-size: 14px;
+  margin: 0 8px; 
 }
