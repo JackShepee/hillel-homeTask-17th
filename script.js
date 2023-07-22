@@ -280,9 +280,12 @@ function displayOrders() {
 }
 
 function showOrdersView() {
-  resetApp();
-  displayOrders();
-  ordersContainer.classList.remove("hidden");
+  if (ordersContainer.classList.contains("hidden")) {
+    resetApp();
+    ordersContainer.classList.remove("hidden");
+  } else {
+    ordersContainer.classList.add("hidden");
+  }
 }
 
 viewOrdersButton.addEventListener("click", showOrdersView);
@@ -290,5 +293,10 @@ viewOrdersButton.addEventListener("click", showOrdersView);
 orderFormElement.addEventListener("submit", submitOrder);
 
 resetAppButton.addEventListener("click", resetApp);
+
+window.addEventListener("DOMContentLoaded", (event) => {
+  ordersContainer.classList.add("hidden");
+  displayOrders();
+});
 
 showCategories();
