@@ -241,6 +241,7 @@ buyButton.addEventListener("click", () => {
 });
 
 const ordersContainer = document.createElement("div");
+ordersContainer.classList.add("orders-container");
 document.body.appendChild(ordersContainer);
 
 function saveOrder(order) {
@@ -257,27 +258,52 @@ function displayOrders() {
   const orders = getOrders();
   ordersContainer.innerHTML = "";
 
-  orders.forEach((order) => {
+  orders.forEach((order, index) => {
     const orderElement = document.createElement("div");
     orderElement.classList.add("order-entry");
 
-    orderElement.innerHTML = `
-          <div class="order-summary">
-              <span>Дата: ${order.date}</span>
-              <span>Продукт: ${order.product}</span>
-              <span>Ціна: ${order.price}</span>
-              <span>Опис: ${order.description}</span>
-              <span>ПІБ покупця: ${order.customerName}</span>
-              <span>Місто: ${order.city}</span>
-              <span>Склад Нової пошти: ${order.warehouse}</span>
-              <span>Спосіб оплати: ${order.payment}</span>
-              <span>Кількість: ${order.quantity}</span>
-              <span>Коментар: ${order.comment}</span>
-          </div>
+    const summaryElement = document.createElement("div");
+    summaryElement.classList.add("order-summary");
+    summaryElement.innerHTML = `
+          <span>Дата: ${order.date}</span>
+          <span>Продукт: ${order.product}</span>
+          <button class="delete-order" data-index="${index}">✖</button>
       `;
+
+    const detailsElement = document.createElement("div");
+    detailsElement.classList.add("order-details", "hidden");
+    detailsElement.innerHTML = `
+          <span>Ціна: ${order.price}</span>
+          <span>Опис: ${order.description}</span>
+          <span>ПІБ покупця: ${order.customerName}</span>
+          <span>Місто: ${order.city}</span>
+          <span>Склад Нової пошти: ${order.warehouse}</span>
+          <span>Спосіб оплати: ${order.payment}</span>
+          <span>Кількість: ${order.quantity}</span>
+          <span>Коментар: ${order.comment}</span>
+      `;
+
+    summaryElement.addEventListener("click", (event) => {
+      if (!event.target.classList.contains("delete-order")) {
+        detailsElement.classList.toggle("hidden");
+      }
+    });
+
+    orderElement.appendChild(summaryElement);
+    orderElement.appendChild(detailsElement);
     ordersContainer.appendChild(orderElement);
   });
 }
+
+ordersContainer.addEventListener("click", (event) => {
+  if (event.target.classList.contains("delete-order")) {
+    const orderIndex = event.target.getAttribute("data-index");
+    const orders = getOrders();
+    orders.splice(orderIndex, 1);
+    localStorage.setItem("orders", JSON.stringify(orders));
+    displayOrders();
+  }
+});
 
 function showOrdersView() {
   if (ordersContainer.classList.contains("hidden")) {
