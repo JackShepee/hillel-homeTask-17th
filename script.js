@@ -26,6 +26,7 @@ const viewOrdersButton = document.getElementById("view-orders");
 let selectedCategory = null;
 let selectedProduct = null;
 let initialCategoryState = null;
+let currentProductData = null;
 
 const categoryData = {
   Фрукти: [
@@ -99,6 +100,12 @@ function showProductInfo(product) {
   productPrice.textContent = `Ціна: ${product.dataset.price} грн`;
   productDescription.textContent = `Опис: ${product.dataset.description}`;
 
+  currentProductData = {
+    name: product.textContent,
+    price: product.dataset.price,
+    description: product.dataset.description,
+  };
+
   productInfo.classList.remove("hidden");
 }
 
@@ -120,13 +127,9 @@ function buyProduct() {
 
 function showOrderForm() {
   orderFormElement.reset();
-  orderProduct.textContent = selectedProduct;
-  orderPrice.textContent = `Ціна: ${
-    document.querySelector(".product[data-price]").dataset.price
-  } грн`;
-  orderDescription.textContent = `Опис: ${
-    document.querySelector(".product[data-description]").dataset.description
-  }`;
+  orderProduct.textContent = currentProductData.name;
+  orderPrice.textContent = `Ціна: ${currentProductData.price} грн`;
+  orderDescription.textContent = `Опис: ${currentProductData.description}`;
 
   productInfo.classList.add("hidden");
   orderForm.classList.remove("hidden");
@@ -267,6 +270,7 @@ function displayOrders() {
     summaryElement.innerHTML = `
           <span>Дата: ${order.date}</span>
           <span>Продукт: ${order.product}</span>
+          <span>Ціна: ${order.price}</span>
           <button class="delete-order" data-index="${index}">✖</button>
       `;
 
