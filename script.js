@@ -175,6 +175,8 @@ function submitOrder(event) {
 
   saveOrder(order);
 
+  displayOrders();
+
   orderInfo.classList.remove("hidden");
   orderForm.classList.add("hidden");
 }
@@ -312,9 +314,14 @@ ordersContainer.addEventListener("click", (event) => {
 function showOrdersView() {
   if (ordersContainer.classList.contains("hidden")) {
     resetApp();
+    viewOrdersButton.classList.remove("hidden");
+    categories.forEach((category) => category.classList.add("hidden"));
     ordersContainer.classList.remove("hidden");
+    displayOrders();
   } else {
     ordersContainer.classList.add("hidden");
+    categories.forEach((category) => category.classList.remove("hidden"));
+    showCategories();
   }
 }
 
